@@ -91,6 +91,9 @@ func (b *simpleReader32) fill(needed uint) error {
 func (b *simpleReader32) Read(p []byte) (n int, err error) {
 	b.ByteAlign()
 	bytes := int((b.bitsLeft + 7) >> 3)
+	if len(p) < bytes {
+		bytes = len(p)
+	}
 	for i := 0; i < bytes; i++ {
 		val, err := b.Read32(8)
 		if err != nil {
